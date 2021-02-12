@@ -1,2 +1,1 @@
-# Anon
 # Roxy Migurdia - ロキシ
