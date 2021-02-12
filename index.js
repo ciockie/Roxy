@@ -68,14 +68,10 @@ client.on('message', async message => {
 						//console.log(argsn)
 						if(argsn.length == 2) {
 							if(argsn[1].toLowerCase().includes('aquila') && argsn[1].endsWith(')')) {
-								let MuteUser = message.guild.members.cache.get(member.id);
-								MuteUser.roles.add('778532539287207956');
 								str.push(`${member.displayName} : ${member}\n`)
 							}
 						} else if(argsn.length == 3) {
 							if (argsn[2].toLowerCase().includes('aquila') && argsn[2].endsWith(')')) {
-								let MuteUser = message.guild.members.cache.get(member.id);
-								MuteUser.roles.add('778532539287207956');
 								str.push(`${member.displayName} : ${member}\n`)
 							}
 						}
@@ -94,6 +90,7 @@ client.on('message', async message => {
 	} else if (command === 'autorole') {
 		if(message.author.id === '276302139276394496') {
 			var job = new CronJob('0 0,30 * * * *', async function() {
+				message.channel.send(`[${moment().format(DDMMYYY_HHMMSS)}]=> Check!`)
 				let a = await getnick();
 				//console.log(a)
 				let str = [];
@@ -129,7 +126,7 @@ client.on('message', async message => {
 						message.channel.send('err')
 					}
 					if(str.length > 0) {
-						message.channel.send(`\`\`\`${str.join('')}\`\`\``)
+						message.channel.send(`**Added Role** :\n\`\`\`${str.join('')}\`\`\``)
 					}
 				}, null, true, 'Asia/Singapore');
 
@@ -145,7 +142,7 @@ client.on('message', async message => {
 
 client.on("guildMemberAdd", (member) => {
 	
-	console.log(member.guild.id);
+	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ${member.guild.id} Joined Server`);
 
   });
 
