@@ -52,6 +52,7 @@ client.on('message', async message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
+	//console.log(args)
 
 	if(command === 'find') {
 		let a = await getnick();
@@ -63,7 +64,21 @@ client.on('message', async message => {
 				if(check_role(member)) {
 					if(member.displayName.includes('Aquila') || member.displayName.includes('aquila')) {
 						//console.log(`${member.displayName} : ${member}`)
-						str.push(`${member.displayName} : ${member}\n`)
+						let argsn = member.displayName.split(/ +/);
+						//console.log(argsn)
+						if(argsn.length == 2) {
+							if(argsn[1].toLowerCase().includes('aquila') && argsn[1].endsWith(')')) {
+								let MuteUser = message.guild.members.cache.get(member.id);
+								MuteUser.roles.add('778532539287207956');
+								str.push(`${member.displayName} : ${member}\n`)
+							}
+						} else if(argsn.length == 3) {
+							if (argsn[2].toLowerCase().includes('aquila') && argsn[2].endsWith(')')) {
+								let MuteUser = message.guild.members.cache.get(member.id);
+								MuteUser.roles.add('778532539287207956');
+								str.push(`${member.displayName} : ${member}\n`)
+							}
+						}
 					}
 					//console.log(`${member.displayName} : ${member}`)
 				}
@@ -72,40 +87,59 @@ client.on('message', async message => {
 			message.channel.send('err')
 		}
 
-		if(str !== []) {
+		if(str.length > 0) {
 			message.channel.send(`\`\`\`${str.join('')}\`\`\``)
 		}
         
 	} else if (command === 'autorole') {
-		var job = new CronJob('* 0,30 * * * *', async function() {
-			let a = await getnick();
-			//console.log(a)
-			let str = [];
-			if(a != false) {
-				//message.channel.send("Reply")
-				var serverlist = ["Aquila", "aquila"]
-				a.members.cache.forEach(member => {
-					if(check_role(member)) {
-						if(member.displayName.includes('Aquila') || member.displayName.includes('aquila')) {
-							console.log(`${member.displayName} : ${member}`)
-							str.push(`${member.displayName} : ${member}\n`)
-							let MuteUser = message.guild.members.cache.get(member.id);
-							MuteUser.roles.add('809711730695340042');
+		if(message.author.id === '276302139276394496') {
+			var job = new CronJob('0 0,30 * * * *', async function() {
+				let a = await getnick();
+				//console.log(a)
+				let str = [];
+				if(a != false) {
+					//message.channel.send("Reply")
+					var serverlist = ["Aquila", "aquila"]
+					a.members.cache.forEach(member => {
+						if(check_role(member)) {
+							if(member.displayName.includes('Aquila') || member.displayName.includes('aquila')) {
+							//console.log(`${member.displayName} : ${member}`)
+							let argsn = member.displayName.split(/ +/);
+							//console.log(args)
+							if(argsn.length == 2) {
+								if(argsn[1].toLowerCase().includes('aquila') && argsn[1].endsWith(')')) {
+									str.push(`${member.displayName} : ${member}\n`)
+									let MuteUser = message.guild.members.cache.get(member.id);
+									MuteUser.roles.add('778532539287207956');
+								}
+							} else if(argsn.length == 3) {
+								if (argsn[2].toLowerCase().includes('aquila') && argsn[2].endsWith(')')) {
+									str.push(`${member.displayName} : ${member}\n`)
+									let MuteUser = message.guild.members.cache.get(member.id);
+									MuteUser.roles.add('778532539287207956');
+								}
+							}
+								//console.log(`${member.displayName} : ${member}`)
+								//str.push(`${member.displayName} : ${member}\n`)
+							}
+							//console.log(`${member.displayName} : ${member}`)
 						}
-						//console.log(`${member.displayName} : ${member}`)
+					});
+					} else {
+						message.channel.send('err')
 					}
-				});
-				} else {
-					message.channel.send('err')
-				}
-				if(str.length > 0) {
-					message.channel.send(`\`\`\`${str.join('')}\`\`\``)
-				}
-			}, null, true, 'Asia/Singapore');
+					if(str.length > 0) {
+						message.channel.send(`\`\`\`${str.join('')}\`\`\``)
+					}
+				}, null, true, 'Asia/Singapore');
 
-		if(args[1] === 'start') {
-			job.start();
-		}
+			if(args[0] === 'start') {
+				message.channel.send('Auto role Start!')
+				job.start();
+			}
+		} 
+	} else if (command === 'test') {
+		console.log(message.guild.member(client.user).hasPermission('MANAGE_ROLES'))
 	}
 });
 
