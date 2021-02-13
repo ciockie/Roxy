@@ -7,6 +7,10 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+var job = new CronJob('* * * * * *', function() {
+	console.log('You will see this message every second');
+  }, null, false, 'America/Los_Angeles');
+
 const DDMMYYY_HHMMSS = 'YYYY-MM-DD HH:MM:SS'
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -28,7 +32,7 @@ client.on('message', async message => {
 	if (!client.commands.has(command)) return;
 
 	try {
-		client.commands.get(command).execute(message, args, client);
+		client.commands.get(command).execute(message, args, client, job);
 	} catch (error) {
 		console.error(error);
 		message.reply('there was an error trying to execute that command!');

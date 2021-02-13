@@ -19,10 +19,36 @@ async function set_roles(message, member) {
     MuteUser.roles.add('778532539287207956');
 }
 
-async function create_job(message, args, client) {
-    var job = new CronJob('* * * * * *', async function() {
-        console.log('Test cron every sec')
-        /*
+async function create_job(message, args, client, job) {
+    console.log(args[0])
+    if(args[0] === 'start') {
+        if(job?.running){
+            message.channel.send('job already runing')
+        } else {
+            job.start();
+            message.channel.send('Auto role Start!')
+        }
+    }
+    if(args[0] === 'stop') {
+        if(job?.running){
+            job.stop()
+            message.channel.send('Auto role Stop!')
+        } else {
+            message.channel.send('no job runing')
+        }
+    }
+
+    if(args[0] === 'status') {
+        message.channel.send(`Job is running ${job?.running ? true : false}`)
+    }
+ 
+
+   
+}
+
+function doSomeThing(){
+    console.log('run every sec')
+    /*
         let a = await getnick(client);
         //console.log(a)
         let str = [];
@@ -56,19 +82,15 @@ async function create_job(message, args, client) {
                 channel_ = client.channels.cache.find(x => x.id == test_log_chnn);
                 channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
             }*/
-        }, null, true, 'Asia/Singapore'); 
-        if(args[0] === 'start') {
-            message.channel.send('Auto role Start!')
-            job.start();
-        }
-    }
+}
+  
 
 module.exports = {
     name: 'autorole',
     description: 'Start/Stop Auto Role',
-    execute(message, args, client) {
+    execute(message, args, client, job) {
         //if(message.author.id === '276302139276394496') { 
-            create_job(message, args, client) 
+            create_job(message, args, client, job) 
         //}
     },
 };
