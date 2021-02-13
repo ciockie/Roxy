@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, token, serverid, channid } = require('./config.json');
+const { prefix, token } = require('./config.json');
 const moment = require('moment')
 const CronJob = require('cron').CronJob;
 const client = new Discord.Client();
@@ -15,8 +15,8 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> Ready!`);
-	channel_log = client.channels.cache.find(x => x.id == '809972566852370432');
-	channel_log.send(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\` in \`MapleSEA Aquila Buys And Trades\` Server`)
+	//channel_log = client.channels.cache.find(x => x.id == '809972566852370432');
+	//channel_log.send(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\` in \`MapleSEA Aquila Buys And Trades\` Server`)
 });
 
 client.on('message', async message => {

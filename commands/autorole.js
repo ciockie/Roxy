@@ -1,5 +1,5 @@
 const CronJob = require('cron').CronJob;
-const { serverid } = require('../config.json');
+const { serverid, test_log_chnn } = require('../config.json');
 const check_role = require('./lib/checkrole')
 
 async function getnick(client) {
@@ -51,10 +51,10 @@ async function create_job(message, args, client) {
                 message.channel.send('err')
             }
             if(str.length > 0) {
-                channel_ = client.channels.cache.find(x => x.id == '809850441562193940');
+                channel_ = client.channels.cache.find(x => x.id == test_log_chnn);
                 channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
             }
-        }, null, true, 'Asia/Singapore'); 
+        }, null, flase, 'Asia/Singapore'); 
         if(args[0] === 'start') {
             message.channel.send('Auto role Start!')
             job.start();
