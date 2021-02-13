@@ -16,38 +16,8 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> Ready!`);
 	channel_log = client.channels.cache.find(x => x.id == '809972566852370432');
-	channel_log.send(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\``)
+	channel_log.send(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\` in \`MapleSEA Aquila Buys And Trades\` Server`)
 });
-
-async function getnick() {
-	//let list = client.guilds.cache.get(serverid)
-	//console.log(list)
-
-	const list =  new Promise((resolve, reject) => {
-		if(client.guilds.cache.get(serverid) !== undefined) {
-			resolve(client.guilds.cache.get(serverid))
-		} else if (client.guilds.cache.get(channid) !== undefined) {
-			resolve(client.channels.cache.get(channid))
-		} else {
-			reject(false)
-		}
-	  });
-	return list ;
-}
-
-function check_role (member) {
-	return !member.roles.cache.has('774574823363837993') &&  //Co-Owner
-	!member.roles.cache.has('778505755576762418') && //Admin
-	!member.roles.cache.has('778856916927250443') && //Verified Middleman
-	!member.roles.cache.has('774894312789901312') && //Guild Master
-	!member.roles.cache.has('774892652881117224') && //Verified Service Provider
-	!member.roles.cache.has('774892007462010881') && //Verified Seller
-	!member.roles.cache.has('778532539287207956') //Regular Member
-}
-
-function check_role_test (member) {
-	return !member.roles.cache.has('809711730695340042')  //Test
-}
 
 client.on('message', async message => {
 
@@ -55,99 +25,18 @@ client.on('message', async message => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 	//console.log(args)
+	if (!client.commands.has(command)) return;
 
-	if(command === 'find') {
-		let a = await getnick();
-		let str = [];
-		if(a != false) {
-			//message.channel.send("Reply")
-			var serverlist = ["Aquila", "aquila"]
-			a.members.cache.forEach(member => {
-				if(check_role(member)) {
-					if(member.displayName.includes('Aquila') || member.displayName.includes('aquila')) {
-						//console.log(`${member.displayName} : ${member}`)
-						let argsn = member.displayName.split(/ +/);
-						//console.log(argsn)
-						if(argsn.length == 2) {
-							if(argsn[1].toLowerCase().includes('aquila') && argsn[1].endsWith(')')) {
-								str.push(`${member.displayName} : ${member}\n`)
-							}
-						} else if(argsn.length == 3) {
-							if (argsn[2].toLowerCase().includes('aquila') && argsn[2].endsWith(')')) {
-								str.push(`${member.displayName} : ${member}\n`)
-							}
-						}
-					}
-					//console.log(`${member.displayName} : ${member}`)
-				}
-		});
-		} else {
-			message.channel.send('err')
-		}
-
-		if(str.length > 0) {
-			message.channel.send(`\`\`\`${str.join('')}\`\`\``)
-		}
-        
-	} else if (command === 'autorole') {
-		if(message.author.id === '276302139276394496') {
-			var job = new CronJob('0 0,30 * * * *', async function() {
-				let a = await getnick();
-				//console.log(a)
-				let str = [];
-				if(a != false) {
-					//message.channel.send("Reply")
-					var serverlist = ["Aquila", "aquila"]
-					a.members.cache.forEach(member => {
-						if(check_role(member)) {
-							if(member.displayName.includes('Aquila') || member.displayName.includes('aquila')) {
-							//console.log(`${member.displayName} : ${member}`)
-							let argsn = member.displayName.split(/ +/);
-							//console.log(args)
-							if(argsn.length == 2) {
-								if(argsn[1].toLowerCase().includes('aquila') && argsn[1].endsWith(')')) {
-									str.push(`${member.displayName} : ${member}\n`)
-									let MuteUser = message.guild.members.cache.get(member.id);
-									MuteUser.roles.add('778532539287207956');
-								}
-							} else if(argsn.length == 3) {
-								if (argsn[2].toLowerCase().includes('aquila') && argsn[2].endsWith(')')) {
-									str.push(`${member.displayName} : ${member}\n`)
-									let MuteUser = message.guild.members.cache.get(member.id);
-									MuteUser.roles.add('778532539287207956');
-								}
-							}
-								//console.log(`${member.displayName} : ${member}`)
-								//str.push(`${member.displayName} : ${member}\n`)
-							}
-							//console.log(`${member.displayName} : ${member}`)
-						}
-					});
-					} else {
-						message.channel.send('err')
-					}
-					if(str.length > 0) {
-						channel_ = client.channels.cache.find(x => x.id == '809850441562193940');
-						channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
-					}
-				}, null, true, 'Asia/Singapore');
-
-			if(args[0] === 'start') {
-				message.channel.send('Auto role Start!')
-				job.start();
-			}
-		} 
-	} else if (command === 'test') {
-		console.log(message.guild.member(client.user).hasPermission('MANAGE_ROLES'))
-	} else if (command === 'there') {
-		message.channel.send(`I'm here`)
+	try {
+		client.commands.get(command).execute(message, args, client);
+	} catch (error) {
+		console.error(error);
+		message.reply('there was an error trying to execute that command!');
 	}
 });
 
 client.on("guildMemberAdd", (member) => {
-	
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ${member.id} Joined Server`);
-
   });
 
 client.login(token);
