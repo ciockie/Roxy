@@ -15,6 +15,8 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> Ready!`);
+	channel_log = client.channels.cache.find(x => x.id == '809972566852370432');
+	channel_log.send(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\``)
 });
 
 async function getnick() {
@@ -90,7 +92,6 @@ client.on('message', async message => {
 	} else if (command === 'autorole') {
 		if(message.author.id === '276302139276394496') {
 			var job = new CronJob('0 0,30 * * * *', async function() {
-				message.channel.send(`[${moment().format(DDMMYYY_HHMMSS)}]=> Check!`)
 				let a = await getnick();
 				//console.log(a)
 				let str = [];
@@ -126,7 +127,8 @@ client.on('message', async message => {
 						message.channel.send('err')
 					}
 					if(str.length > 0) {
-						message.channel.send(`**Added Role** :\n\`\`\`${str.join('')}\`\`\``)
+						channel_ = client.channels.cache.find(x => x.id == '809850441562193940');
+						channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
 					}
 				}, null, true, 'Asia/Singapore');
 
@@ -137,12 +139,14 @@ client.on('message', async message => {
 		} 
 	} else if (command === 'test') {
 		console.log(message.guild.member(client.user).hasPermission('MANAGE_ROLES'))
+	} else if (command === 'there') {
+		message.channel.send(`I'm here`)
 	}
 });
 
 client.on("guildMemberAdd", (member) => {
 	
-	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ${member.guild.id} Joined Server`);
+	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ${member.id} Joined Server`);
 
   });
 
