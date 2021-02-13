@@ -20,7 +20,9 @@ async function set_roles(message, member) {
 }
 
 async function create_job(message, args, client) {
-    var job = new CronJob('0 0,30 * * * *', async function() {
+    var job = new CronJob('* * * * * *', async function() {
+        console.log('Test cron every sec')
+        /*
         let a = await getnick(client);
         //console.log(a)
         let str = [];
@@ -53,8 +55,8 @@ async function create_job(message, args, client) {
             if(str.length > 0) {
                 channel_ = client.channels.cache.find(x => x.id == test_log_chnn);
                 channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
-            }
-        }, null, flase, 'Asia/Singapore'); 
+            }*/
+        }, null, true, 'Asia/Singapore'); 
         if(args[0] === 'start') {
             message.channel.send('Auto role Start!')
             job.start();
@@ -65,8 +67,8 @@ module.exports = {
     name: 'autorole',
     description: 'Start/Stop Auto Role',
     execute(message, args, client) {
-        if(message.author.id === '276302139276394496') { 
+        //if(message.author.id === '276302139276394496') { 
             create_job(message, args, client) 
-        }
+        //}
     },
 };
