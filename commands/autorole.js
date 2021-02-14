@@ -18,7 +18,7 @@ async function create_job(message, args, client, job) {
     }
 
     if(args[0] === 'status') {
-        message.channel.send(`Job is running stat : ${job.running ? 'Running' : false}`)
+        message.channel.send(`Autorole stat : ${job.running ? 'Running' : false}`)
     }
 }
   
