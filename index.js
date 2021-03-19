@@ -28,6 +28,14 @@ async function set_roles(member) {
     MuteUser.roles.add(role_id);
 }
 
+async function remove_roles(member) {
+    const guild = client.guilds.cache.get(serverid);
+    if (!guild) return console.log("Guild not found.");
+    let MuteUser = await guild.members.cache.get(member.id)
+    //console.log(MuteUser)
+    MuteUser.roles.remove(MuteUser.roles.cache)
+}
+
 
 var job = new CronJob('0 0,30 * * * *', async function() {
 
@@ -69,6 +77,12 @@ var job = new CronJob('0 0,30 * * * *', async function() {
 
 function throw_log(msg) {
     channel_log = client.channels.cache.find(x => x.id == '809972566852370432')
+    if(prefix == '$') return;
+    channel_log.send(msg)
+}
+
+function throw_dmlog(msg) {
+    channel_log = client.channels.cache.find(x => x.id == '811807538567839795')
     channel_log.send(msg)
 }
 
@@ -78,19 +92,37 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+client.once('ready', async () => {
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> Ready!`);
     throw_log(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\` in \`MapleSEA Aquila Buys And Trades\` Server`)
 });
 
 client.on('message', async message => {
 
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if(message.channel.type === 'dm') {
+        if(!message.author.bot) {
+            let sender_id = message.channel.recipient.id
+            let sender_name = message.channel.recipient.username
+            let r_message = message.content
+            let dmlog = `DM => From ${sender_name} <@${sender_id}> : \`${r_message}\``
+            console.log(`[${moment().format(DDMMYYY_HHMMSS)}] ${dmlog}`)
+            throw_dmlog(`[${moment().format(DDMMYYY_HHMMSS)}] ${dmlog}`)
+        }
+    }
+
+    if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === 'dm') return;
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ID : ${message.author.id} MSG : ${message.content.replace(prefix,'')}`);
     throw_log(`[${moment().format(DDMMYYY_HHMMSS)}]=> ID : ${message.author.id} MSG : ${message.content.replace(prefix,'')}`)
-	if (!client.commands.has(command)) return;
+    let chnnstat = client.channels.cache.get("811903844581507152")
+    if(message.content.replace(prefix,'') === 'green') {
+        console.log(message.author.id)
+        await chnnstat.setName('🟢 roxy') //🔴 🟢 
+    } else if(message.content.replace(prefix,'') === 'red') {
+        await chnnstat.setName('🔴 roxy') //🔴 🟢
+    }
+    if (!client.commands.has(command)) return;
 
 	try {
         if(command === 'autorole') {
