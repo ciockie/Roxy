@@ -73,7 +73,7 @@ var job = new CronJob('0 0,30 * * * *', async function() {
                 channel_ = client.channels.cache.find(x => x.id == log_chnn);
                 channel_.send(`**Added Role** : \`\`\`${str.join('')}\`\`\``)
             }
-  }, null, false, 'Asia/Singapore');
+  }, null, true, 'Asia/Singapore');
 
 function throw_log(msg) {
     channel_log = client.channels.cache.find(x => x.id == '809972566852370432')
