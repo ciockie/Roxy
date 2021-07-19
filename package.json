@@ -1,0 +1,25 @@
+{
+  "name": "roxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "cron": "^1.8.2",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ciockie/roxy.git"
+  },
+  "author": "Ciockie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ciockie/roxy/issues"
+  },
+  "homepage": "https://github.com/ciockie/roxy#readme"
+}
