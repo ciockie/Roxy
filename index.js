@@ -55,7 +55,8 @@ var job = new CronJob('0 0,30 * * * *', async function() {
                         //console.log(`${member.displayName} : ${member}`)
                         let argsn = member.displayName.split(/ +/); 
                         if(member.displayName.toLowerCase().endsWith(')')) {
-                            if(member.displayName.toLowerCase().split(" ").length - 1 < 3 && member.displayName.toLowerCase().split(" ").length - 1 > 0) {
+                            console.log(member.displayName.toLowerCase().split(" ").length)
+                            if(member.displayName.toLowerCase().split(" ").length - 1 < 3 && member.displayName.toLowerCase().split(" ").length - 1 > 1) {
                                 str.push(`${member.displayName} : ${member}\n`)
                                 set_roles(member)
                                 console.log(`Add : ${member.displayName} : ${member}`)
@@ -110,7 +111,7 @@ for (const file of commandFiles) {
 
 client.once('ready', async () => {
 	console.log(`[${moment().format(DDMMYYY_HHMMSS)}]=> Ready!`);
-    throw_log(`Roxy Migurdia - ロキシ has started , <@276302139276394496> Please start autorole by type \`;autorole start\` in \`MapleSEA Aquila Buys And Trades\` Server`)
+    throw_log(`Roxy Migurdia - ロキシ has restarted.`)
 });
 
 client.on('message', async message => {
